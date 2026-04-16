@@ -1,17 +1,19 @@
 from common import message_protocol
-
+import uuid
 
 class MessageHandler:
 
     def __init__(self):
-        pass
+        self._curret_uuid = str(uuid.uuid4())
     
     def serialize_data_message(self, message):
         [fruit, amount] = message
-        return message_protocol.internal.serialize([fruit, amount])
+        return message_protocol.internal.serialize([fruit, amount, self._curret_uuid])
 
     def serialize_eof_message(self, message):
-        return message_protocol.internal.serialize([])
+        return_message = message_protocol.internal.serialize([self._curret_uuid])
+        self._curret_uuid = str(uuid.uuid4())
+        return return_message
 
     def deserialize_result_message(self, message):
         fields = message_protocol.internal.deserialize(message)
