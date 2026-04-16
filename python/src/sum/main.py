@@ -30,7 +30,6 @@ class SumFilter:
                 logging.info(f"recived first message from client: {client_id}")
                 self.amount_by_fruit[client_id] ={}
                 self.client_status[client_id] = WORKING
-            logging.info(f"recived message from client: {client_id}")
             client_dict = self.amount_by_fruit[client_id]
             client_dict[fruit] = client_dict.get(
                 fruit, fruit_item.FruitItem(fruit, 0)
@@ -44,7 +43,6 @@ class SumFilter:
     def send_to_data_outptut(self, client_id):
         with self._lock:   
             logging.info(f"Broadcasting data messages")
-            logging.info(f"amount by fruit: {self.amount_by_fruit}")
             if client_id in self.amount_by_fruit.keys():
                 for final_fruit_item in self.amount_by_fruit[client_id].values():
                     for data_output_exchange in self.data_output_exchanges:
