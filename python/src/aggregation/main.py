@@ -19,7 +19,7 @@ class AggregationFilter:
 
     def __init__(self):
         self.input_exchange = middleware.MessageMiddlewareExchangeRabbitMQ(
-            MOM_HOST, AGGREGATION_PREFIX, [f"{AGGREGATION_PREFIX}_{ID}"]
+            MOM_HOST, AGGREGATION_PREFIX, [f"{AGGREGATION_PREFIX}",f"{ID}"]
         )
         self.output_queue = middleware.MessageMiddlewareQueueRabbitMQ(
             MOM_HOST, OUTPUT_QUEUE
@@ -42,6 +42,8 @@ class AggregationFilter:
         bisect.insort(fruit_top, fruit_item.FruitItem(fruit, amount))
 
     def _process_eof(self, client_id, worker_id):
+        fruit_top = None
+        logging.info(f"client_id : {client_id}")
         if client_id not in  self.client_worker_relation.keys():
             self.client_worker_relation[client_id] = set()
         self.client_worker_relation[client_id].add(worker_id)
@@ -49,29 +51,25 @@ class AggregationFilter:
         if len(self.client_worker_relation[client_id]) < SUM_AMOUNT:
             return
         logging.info(f"Received all EOF for {client_id},{self.client_worker_relation[client_id]}")
-        self.client_fruit_top[client_id].sort()
-        fruit_chunk = list(self.client_fruit_top[client_id][-TOP_SIZE:])
-        fruit_chunk.reverse()
-        fruit_top = list(
-            map(
-                lambda fruit_item: (fruit_item.fruit, fruit_item.amount),
-                fruit_chunk,
+        if client_id in self.client_fruit_top.keys():
+            self.client_fruit_top[client_id].sort()
+            fruit_chunk = list(self.client_fruit_top[client_id][-TOP_SIZE:])
+            fruit_chunk.reverse()
+            fruit_top = list(
+                map(
+                    lambda fruit_item: (fruit_item.fruit, fruit_item.amount),
+                    fruit_chunk,
+                )
             )
-        )
-        logging.info(f"fruits of client {client_id}, {worker_id} {list(
-            map(
-                lambda fruit_item: (fruit_item.fruit, fruit_item.amount),
-                self.client_fruit_top[client_id],
-            )
-        )}")
-        self.output_queue.send(message_protocol.internal.serialize(fruit_top))
-        del self.client_fruit_top[client_id]
+            del self.client_fruit_top[client_id]
+        self.output_queue.send(message_protocol.internal.serialize([fruit_top, client_id, ID]))
 
     def process_messsage(self, message, ack, nack):
         fields = message_protocol.internal.deserialize(message)
         if len(fields) == 4:
             self._process_data(*fields)
         else:
+            logging.info(f"eof message {fields}")
             self._process_eof(*fields)
         ack()
 

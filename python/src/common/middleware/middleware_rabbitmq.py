@@ -8,7 +8,7 @@ class MessageMiddlewareQueueRabbitMQ(MessageMiddlewareQueue):
     def __init__(self, host, queue_name):
         self._conn = pika.BlockingConnection(pika.ConnectionParameters(host))
         self._channel =  self._conn.channel()
-        self._channel.queue_declare(queue=queue_name, durable=True, arguments=self.QUEUE_ARGUMENTS)
+        self._channel.queue_declare(queue=queue_name, durable=True)
         self._queue_name = queue_name
         self._delivery_tag = None
         self._consumer_tag = None
@@ -52,12 +52,12 @@ class MessageMiddlewareQueueRabbitMQ(MessageMiddlewareQueue):
 
 class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
     EXCHANGE_TYPE = "topic"
-    def __init__(self, host, exchange_name, routing_keys):
+    def __init__(self, host, exchange_name, routing_keys, exchange_type = "topic"):
         self._conn = pika.BlockingConnection(pika.ConnectionParameters(host))
         self._channel =  self._conn.channel()
         self._exchange_name = exchange_name
-        self._channel.exchange_declare(exchange= self._exchange_name,exchange_type=self.EXCHANGE_TYPE)
-        result = self._channel.queue_declare(queue="", exclusive=True)
+        self._channel.exchange_declare(exchange= self._exchange_name,exchange_type=exchange_type)
+        result = self._channel.queue_declare(queue="")
         self._queue_name = result.method.queue
         for key in routing_keys:
             self._channel.queue_bind(exchange=self._exchange_name,queue=self._queue_name,  routing_key=key)  
@@ -70,6 +70,19 @@ class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
             keys = ".".join(self._routing_keys)
             self._channel.basic_publish(exchange=self._exchange_name,
                         routing_key=keys,
+                        body=message)
+        except pika.exceptions.AMQPConnectionError as e:
+            self.close()
+            raise MessageMiddlewareDisconnectedError(e)
+        except Exception as e:
+            self.close()
+            raise MessageMiddlewareMessageError(e)
+    def send_by_key(self,message, key):
+        if key not in self._routing_keys:
+            raise KeyError(f"{key} not in routing keys")
+        try:
+            self._channel.basic_publish(exchange=self._exchange_name,
+                        routing_key=key,
                         body=message)
         except pika.exceptions.AMQPConnectionError as e:
             self.close()
@@ -105,7 +118,8 @@ class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
         self._consumer_tag = consumer_tag
     def bind(self, routing_keys=[]):
         for key in routing_keys:
-            self._channel.queue_bind(exchange=self._exchange_name,queue=self._queue_name,  routing_key=key)  
+            self._channel.queue_bind(exchange=self._exchange_name,queue=self._queue_name,  routing_key=key) 
+            self._routing_keys.append(key)
 
 ### Auxiliary function ###
 def _start_consuming(message_middleware, on_message_callback):

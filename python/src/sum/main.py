@@ -23,6 +23,8 @@ class SumFilter:
         self.amount_by_fruit =manager.dict()
         self.client_status =manager.dict()
         self._lock = manager.Lock()
+        self._connected_sums = manager.list()
+        self._barrier_condition=multiprocessing.Condition()
 
     def _process_data(self, fruit, amount, client_id):
         with self._lock:
@@ -37,27 +39,36 @@ class SumFilter:
             self.amount_by_fruit[client_id] = client_dict
 
     def _process_eof(self, client_id):
-        logging.info(f"Broadcasting to other jobs")
+        logging.info(f"Broadcasting to other jobs the eof of {client_id}")
         self.sum_intercomm.send(message_protocol.internal.serialize([client_id]))
 
     def send_to_data_outptut(self, client_id):
         with self._lock:   
             logging.info(f"Broadcasting data messages")
+            aggregator_index = 0
             if client_id in self.amount_by_fruit.keys():
                 for final_fruit_item in self.amount_by_fruit[client_id].values():
-                    for data_output_exchange in self.data_output_exchanges:
-                        data_output_exchange.send(
-                            message_protocol.internal.serialize(
-                                [final_fruit_item.fruit, final_fruit_item.amount, client_id, ID]
-                            )
-                        )
-            logging.info(f"Broadcasting EOF message")
-            for data_output_exchange in self.data_output_exchanges:
-                data_output_exchange.send(message_protocol.internal.serialize([client_id, ID]))
+                    self.data_output_exchanges[aggregator_index].send_by_key(
+                        message_protocol.internal.serialize(
+                            [final_fruit_item.fruit, final_fruit_item.amount, client_id, ID]
+                        ),
+                        str(aggregator_index)
+                    )
+                    aggregator_index += 1
+                    if aggregator_index <= AGGREGATION_AMOUNT:
+                        aggregator_index = 0
+            logging.info(f"Broadcasting EOF message of client {client_id}")
+            self.data_output_exchanges[0].send_by_key(message_protocol.internal.serialize([client_id, ID]), AGGREGATION_PREFIX)
 
     def process_intercomm_message(self, message, ack, nack):
-        client_id = message_protocol.internal.deserialize(message)[0]
-        self.send_to_data_outptut(client_id) 
+        id = message_protocol.internal.deserialize(message)[0]
+        if isinstance(id, int):
+            if id != ID:
+                self._connected_sums.append(id)
+            if len(self._connected_sums) == SUM_AMOUNT:
+                self._barrier_condition.notify_all()
+        else:
+            self.send_to_data_outptut(id) 
         ack()
 
     def process_data_messsage(self, message, ack, nack):
@@ -69,32 +80,35 @@ class SumFilter:
         ack()
 
     def start_inter_comm(self):
-        logging.basicConfig(level=logging.INFO)
-        sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE])
-        def handle_sigterm(sum_intercomm, data_output_exchanges):
-            sum_intercomm.stop_consuming()
-            for exchange in data_output_exchange:
-                exchange.close()
-        signal.signal(
-            signal.SIGTERM,
-            lambda signum, frame:handle_sigterm(sum_intercomm, self.data_output_exchanges),
-        )
-        for i in range(AGGREGATION_AMOUNT):
-            data_output_exchange = middleware.MessageMiddlewareExchangeRabbitMQ(
-                MOM_HOST, AGGREGATION_PREFIX, [f"{AGGREGATION_PREFIX}_{i}"]
+        with self._barrier_condition:
+            logging.basicConfig(level=logging.INFO)
+            sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE],"fanout")
+            def handle_sigterm(sum_intercomm, data_output_exchanges):
+                sum_intercomm.stop_consuming()
+                for exchange in data_output_exchange:
+                    exchange.close()
+            signal.signal(
+                signal.SIGTERM,
+                lambda signum, frame:handle_sigterm(sum_intercomm, self.data_output_exchanges),
             )
-        self.data_output_exchanges.append(data_output_exchange)
-        try:
-            sum_intercomm.start_consuming(self.process_intercomm_message)
-        finally:
-            sum_intercomm.close()
+            for i in range(AGGREGATION_AMOUNT):
+                data_output_exchange = middleware.MessageMiddlewareExchangeRabbitMQ(
+                    MOM_HOST, AGGREGATION_PREFIX, [f"{AGGREGATION_PREFIX}",f"{i}"]
+                )
+                self.data_output_exchanges.append(data_output_exchange)
+            try:
+                self._connected_sums.append(ID)
+                sum_intercomm.send(message_protocol.internal.serialize([ID]))
+                sum_intercomm.start_consuming(self.process_intercomm_message)
+            finally:
+                sum_intercomm.close()
 
     def start_input_manager(self):
         logging.basicConfig(level=logging.INFO)
         self.input_queue = middleware.MessageMiddlewareQueueRabbitMQ(
             MOM_HOST, INPUT_QUEUE
         )
-        self.sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE])
+        self.sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE], "fanout")
         def handle_sigterm(input_queue):
             input_queue.stop_consuming()
         signal.signal(
@@ -109,10 +123,10 @@ class SumFilter:
     def start(self):
         process_input_queue = multiprocessing.Process(target=self.start_input_manager)
         process_sum_intercomm = multiprocessing.Process(target=self.start_inter_comm)
-        process_input_queue.start()
         process_sum_intercomm.start()
-        process_input_queue.join()
+        process_input_queue.start()
         process_sum_intercomm.join()
+        process_input_queue.join()
     
 
 def main():

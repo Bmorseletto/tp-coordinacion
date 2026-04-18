@@ -1,6 +1,6 @@
 import os
 import logging
-
+import bisect
 from common import middleware, message_protocol, fruit_item
 
 MOM_HOST = os.environ["MOM_HOST"]
@@ -22,11 +22,44 @@ class JoinFilter:
         self.output_queue = middleware.MessageMiddlewareQueueRabbitMQ(
             MOM_HOST, OUTPUT_QUEUE
         )
+        self.client_tops = {}
+        self.worker_finished_with_client = {}
+
+    def _process_data(self, new_fruit_top, client_id, worker_id):
+        if client_id not in self.worker_finished_with_client.keys():
+            self.worker_finished_with_client[client_id] = set()
+        self.worker_finished_with_client[client_id].add(worker_id)
+        if new_fruit_top != None:
+            if client_id not in self.client_tops.keys():
+                self.client_tops[client_id] = new_fruit_top
+            else:
+                current_fruit_top = self.client_tops[client_id]
+                logging.info(f"current fruit top: {current_fruit_top}")
+                for fruit_item in new_fruit_top:
+                    for i in range(len(current_fruit_top)):
+                        if current_fruit_top[i][0] == fruit_item[0]:
+                            current_fruit_top[i][1] += fruit_item[1]
+                            break
+                        else:
+                            bisect.insort(current_fruit_top, fruit_item)
+        if len(self.worker_finished_with_client[client_id]) == AGGREGATION_AMOUNT:
+            self.client_tops[client_id].sort( reverse = True, key=lambda x: x[1])
+            logging.info(f"client_tops[client_id]: {self.client_tops[client_id]}")
+            fruit_chunk = list(self.client_tops[client_id][-TOP_SIZE:])
+            fruit_top = list(
+                map(
+                    lambda fruit_item: (fruit_item[0], fruit_item[1]),
+                    fruit_chunk,
+                )
+            )
+            logging.info(f"sending top: {fruit_top} of client {client_id}:")
+            self.output_queue.send(message_protocol.internal.serialize(fruit_top))
+
 
     def process_messsage(self, message, ack, nack):
-        logging.info("Received top")
+        logging.info(f"Received top {message}")
         fruit_top = message_protocol.internal.deserialize(message)
-        self.output_queue.send(message_protocol.internal.serialize(fruit_top))
+        self._process_data(*fruit_top)
         ack()
 
     def start(self):
