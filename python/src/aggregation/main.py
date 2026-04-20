@@ -76,20 +76,26 @@ class AggregationFilter:
 
     def start(self):
         self.input_exchange.start_consuming(self.process_messsage)
-    
-    def close(self):
         self.input_exchange.close()
         self.output_queue.close()
 
+    
+    def stop(self):
+        self.input_exchange.stop_consuming()
+    def close(self):
+        self.input_exchange.close()
+        self.output_queue.close()
+       
 
 def main():
     logging.basicConfig(level=logging.INFO)
     aggregation_filter = AggregationFilter()
     signal.signal(
         signal.SIGTERM,
-        lambda signum, frame: aggregation_filter.close(),
+        lambda signum, frame: aggregation_filter.stop(),
     )
     aggregation_filter.start()
+    aggregation_filter.close()
     return 0
 
 

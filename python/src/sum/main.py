@@ -87,8 +87,8 @@ class SumFilter:
         self.sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE],"fanout")
         def handle_sigterm(sum_intercomm, data_output_exchanges):
             sum_intercomm.stop_consuming()
-            for exchange in data_output_exchange:
-                exchange.close()
+            for exchange in data_output_exchanges:
+                exchange.stop_consuming()
         signal.signal(
             signal.SIGTERM,
             lambda signum, frame:handle_sigterm(self.sum_intercomm, self.data_output_exchanges),
@@ -104,6 +104,8 @@ class SumFilter:
             self.sum_intercomm.start_consuming(self.process_intercomm_message)
         finally:
             self.sum_intercomm.close()
+            for exchange in self.data_output_exchanges:
+                exchange.close()
 
     def start_input_manager(self):
         with self._barrier_condition:
@@ -127,6 +129,13 @@ class SumFilter:
     def start(self):
         process_input_queue = multiprocessing.Process(target=self.start_input_manager)
         process_sum_intercomm = multiprocessing.Process(target=self.start_inter_comm)
+        def handle_sigterm():
+            process_input_queue.terminate()
+            process_sum_intercomm.terminate()
+        signal.signal(
+            signal.SIGTERM,
+            lambda signum, frame:handle_sigterm(),
+        )
         process_sum_intercomm.start()
         process_input_queue.start()
         process_sum_intercomm.join()

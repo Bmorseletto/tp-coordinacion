@@ -66,19 +66,21 @@ class JoinFilter:
 
     def start(self):
         self.input_queue.start_consuming(self.process_messsage)
+
+    def stop(self):
+        self.input_queue.stop_consuming()
     def close(self):
         self.input_queue.close()
         self.output_queue.close()
-
 def main():
     logging.basicConfig(level=logging.INFO)
     join_filter = JoinFilter()
     signal.signal(
         signal.SIGTERM,
-        lambda signum, frame: join_filter.close(),
+        lambda signum, frame: join_filter.stop(),
     )
     join_filter.start()
-
+    join_filter.close()
     return 0
 
 
