@@ -1,6 +1,8 @@
 import os
 import logging
 import bisect
+import signal
+
 from common import middleware, message_protocol, fruit_item
 
 MOM_HOST = os.environ["MOM_HOST"]
@@ -64,11 +66,17 @@ class JoinFilter:
 
     def start(self):
         self.input_queue.start_consuming(self.process_messsage)
-
+    def close(self):
+        self.input_queue.close()
+        self.output_queue.close()
 
 def main():
     logging.basicConfig(level=logging.INFO)
     join_filter = JoinFilter()
+    signal.signal(
+        signal.SIGTERM,
+        lambda signum, frame: join_filter.close(),
+    )
     join_filter.start()
 
     return 0

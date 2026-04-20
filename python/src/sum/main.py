@@ -63,10 +63,13 @@ class SumFilter:
     def process_intercomm_message(self, message, ack, nack):
         id = message_protocol.internal.deserialize(message)[0]
         if isinstance(id, int):
-            if id != ID:
+            if id != ID and id not in self._connected_sums and len(self._connected_sums) <= SUM_AMOUNT:
                 self._connected_sums.append(id)
-            if len(self._connected_sums) == SUM_AMOUNT:
-                self._barrier_condition.notify_all()
+                self.sum_intercomm.send(message_protocol.internal.serialize([ID]))
+            if len(self._connected_sums) >= SUM_AMOUNT:
+                logging.info("all workers connected to intercomm")
+                with self._barrier_condition:
+                    self._barrier_condition.notify_all()
         else:
             self.send_to_data_outptut(id) 
         ack()
@@ -80,30 +83,31 @@ class SumFilter:
         ack()
 
     def start_inter_comm(self):
-        with self._barrier_condition:
-            logging.basicConfig(level=logging.INFO)
-            sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE],"fanout")
-            def handle_sigterm(sum_intercomm, data_output_exchanges):
-                sum_intercomm.stop_consuming()
-                for exchange in data_output_exchange:
-                    exchange.close()
-            signal.signal(
-                signal.SIGTERM,
-                lambda signum, frame:handle_sigterm(sum_intercomm, self.data_output_exchanges),
+        logging.basicConfig(level=logging.INFO)
+        self.sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE],"fanout")
+        def handle_sigterm(sum_intercomm, data_output_exchanges):
+            sum_intercomm.stop_consuming()
+            for exchange in data_output_exchange:
+                exchange.close()
+        signal.signal(
+            signal.SIGTERM,
+            lambda signum, frame:handle_sigterm(self.sum_intercomm, self.data_output_exchanges),
+        )
+        for i in range(AGGREGATION_AMOUNT):
+            data_output_exchange = middleware.MessageMiddlewareExchangeRabbitMQ(
+                MOM_HOST, AGGREGATION_PREFIX, [f"{AGGREGATION_PREFIX}",f"{i}"]
             )
-            for i in range(AGGREGATION_AMOUNT):
-                data_output_exchange = middleware.MessageMiddlewareExchangeRabbitMQ(
-                    MOM_HOST, AGGREGATION_PREFIX, [f"{AGGREGATION_PREFIX}",f"{i}"]
-                )
-                self.data_output_exchanges.append(data_output_exchange)
-            try:
-                self._connected_sums.append(ID)
-                sum_intercomm.send(message_protocol.internal.serialize([ID]))
-                sum_intercomm.start_consuming(self.process_intercomm_message)
-            finally:
-                sum_intercomm.close()
+            self.data_output_exchanges.append(data_output_exchange)
+        try:
+            self._connected_sums.append(ID)
+            self.sum_intercomm.send(message_protocol.internal.serialize([ID]))
+            self.sum_intercomm.start_consuming(self.process_intercomm_message)
+        finally:
+            self.sum_intercomm.close()
 
     def start_input_manager(self):
+        with self._barrier_condition:
+            self._barrier_condition.wait_for(lambda: len(self._connected_sums) >= SUM_AMOUNT)
         logging.basicConfig(level=logging.INFO)
         self.input_queue = middleware.MessageMiddlewareQueueRabbitMQ(
             MOM_HOST, INPUT_QUEUE
