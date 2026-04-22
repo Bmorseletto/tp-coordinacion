@@ -49,7 +49,7 @@ class JoinFilter:
         if len(self.worker_finished_with_client[client_id]) == AGGREGATION_AMOUNT:
             self.client_tops[client_id].sort( reverse = True, key=lambda x: x[1])
             logging.info(f"client_tops[client_id]: {self.client_tops[client_id]}")
-            fruit_chunk = list(self.client_tops[client_id][TOP_SIZE:])
+            fruit_chunk = list(self.client_tops[client_id][:TOP_SIZE])
             fruit_top = list(
                 map(
                     lambda fruit_item: (fruit_item[0], fruit_item[1]),
