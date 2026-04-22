@@ -1,0 +1,210 @@
+aggregation_1  | INFO:pika.adapters.utils.connection_workflow:Pika version 1.3.2 connecting to ('172.18.0.2', 5672)
+aggregation_1  | INFO:pika.adapters.utils.io_services_utils:Socket connected: <socket.socket fd=6, family=2, type=1, proto=6, laddr=('172.18.0.7', 60350), raddr=('172.18.0.2', 5672)>
+aggregation_1  | INFO:pika.adapters.utils.connection_workflow:Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc909f3e00>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc909f3e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+aggregation_1  | INFO:pika.adapters.utils.connection_workflow:AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc909f3e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_1  | INFO:pika.adapters.utils.connection_workflow:AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc909f3e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_1  | INFO:pika.adapters.blocking_connection:Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc909f3e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_1  | INFO:pika.adapters.blocking_connection:Created channel=1
+aggregation_1  | INFO:pika.adapters.utils.connection_workflow:Pika version 1.3.2 connecting to ('172.18.0.2', 5672)
+aggregation_1  | INFO:pika.adapters.utils.io_services_utils:Socket connected: <socket.socket fd=10, family=2, type=1, proto=6, laddr=('172.18.0.7', 60356), raddr=('172.18.0.2', 5672)>
+aggregation_1  | INFO:pika.adapters.utils.connection_workflow:Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc90a56850>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc90a56850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+aggregation_1  | INFO:pika.adapters.utils.connection_workflow:AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc90a56850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_1  | INFO:pika.adapters.utils.connection_workflow:AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc90a56850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_1  | INFO:pika.adapters.blocking_connection:Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cbc90a56850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_1  | INFO:pika.adapters.blocking_connection:Created channel=1
+aggregation_1  | INFO:root:fruit, amount, client_id : ('guava', 1095, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_1  | INFO:root:fruit, amount, client_id : ('pomelo', 1316, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_1  | INFO:root:fruit, amount, client_id : ('dragonfruit', 1322, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_1  | INFO:root:fruit, amount, client_id : ('blackberry', 1602, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_1  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 1]
+aggregation_1  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_1  | INFO:root:Worker 1, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_1  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 0]
+aggregation_1  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_1  | INFO:root:Worker 0, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_1  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 2]
+aggregation_1  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_1  | INFO:root:Worker 2, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_1  | INFO:root:Received all EOF for e5307667-4d91-48af-968f-3badfb0822e1,{0, 1, 2}
+aggregation_1  | INFO:root:fruit, amount, client_id : ('guava', 811, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_1  | INFO:root:fruit, amount, client_id : ('pomelo', 1096, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_1  | INFO:root:fruit, amount, client_id : ('blackberry', 1163, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_1  | INFO:root:fruit, amount, client_id : ('dragonfruit', 1228, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_1  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 0]
+aggregation_1  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_1  | INFO:root:Worker 0, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_1  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2]
+aggregation_1  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_1  | INFO:root:Worker 2, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_1  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 1]
+aggregation_1  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_1  | INFO:root:Worker 1, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_1  | INFO:root:Received all EOF for 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a,{0, 1, 2}
+aggregation_1  | INFO:root:fruit, amount, client_id : ('dragonfruit', 856, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_1  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 0]
+aggregation_1  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_1  | INFO:root:Worker 0, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_1  | INFO:root:fruit, amount, client_id : ('blackberry', 920, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_1  | INFO:root:fruit, amount, client_id : ('guava', 990, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_1  | INFO:root:fruit, amount, client_id : ('pomelo', 1150, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_1  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 1]
+aggregation_1  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_1  | INFO:root:Worker 1, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_1  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 2]
+aggregation_1  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_1  | INFO:root:Worker 2, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_1  | INFO:root:Received all EOF for 97843581-5622-4683-a440-8f9bad213935,{0, 1, 2}
+aggregation_2  | INFO:pika.adapters.utils.connection_workflow:Pika version 1.3.2 connecting to ('172.18.0.2', 5672)
+aggregation_2  | INFO:pika.adapters.utils.io_services_utils:Socket connected: <socket.socket fd=6, family=2, type=1, proto=6, laddr=('172.18.0.6', 57244), raddr=('172.18.0.2', 5672)>
+aggregation_2  | INFO:pika.adapters.utils.connection_workflow:Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a2fe00>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a2fe00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+aggregation_2  | INFO:pika.adapters.utils.connection_workflow:AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a2fe00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_2  | INFO:pika.adapters.utils.connection_workflow:AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a2fe00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_2  | INFO:pika.adapters.blocking_connection:Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a2fe00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_2  | INFO:pika.adapters.blocking_connection:Created channel=1
+aggregation_2  | INFO:pika.adapters.utils.connection_workflow:Pika version 1.3.2 connecting to ('172.18.0.2', 5672)
+aggregation_2  | INFO:pika.adapters.utils.io_services_utils:Socket connected: <socket.socket fd=10, family=2, type=1, proto=6, laddr=('172.18.0.6', 57258), raddr=('172.18.0.2', 5672)>
+aggregation_2  | INFO:pika.adapters.utils.connection_workflow:Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a8a850>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a8a850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+aggregation_2  | INFO:pika.adapters.utils.connection_workflow:AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a8a850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_2  | INFO:pika.adapters.utils.connection_workflow:AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a8a850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_2  | INFO:pika.adapters.blocking_connection:Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7d0f10a8a850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_2  | INFO:pika.adapters.blocking_connection:Created channel=1
+aggregation_2  | INFO:root:fruit, amount, client_id : ('starfruit', 921, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_2  | INFO:root:fruit, amount, client_id : ('tangerine', 1329, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_2  | INFO:root:fruit, amount, client_id : ('pomegranate', 1395, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_2  | INFO:root:fruit, amount, client_id : ('banana', 1808, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_2  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 1]
+aggregation_2  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_2  | INFO:root:Worker 1, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_2  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 0]
+aggregation_2  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_2  | INFO:root:Worker 0, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_2  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 2]
+aggregation_2  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_2  | INFO:root:Worker 2, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_2  | INFO:root:Received all EOF for e5307667-4d91-48af-968f-3badfb0822e1,{0, 1, 2}
+aggregation_2  | INFO:root:fruit, amount, client_id : ('tangerine', 1078, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_2  | INFO:root:fruit, amount, client_id : ('banana', 1166, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_2  | INFO:root:fruit, amount, client_id : ('pomegranate', 1415, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_2  | INFO:root:fruit, amount, client_id : ('starfruit', 1543, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_2  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 0]
+aggregation_2  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_2  | INFO:root:Worker 0, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_2  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2]
+aggregation_2  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_2  | INFO:root:Worker 2, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_2  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 1]
+aggregation_2  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_2  | INFO:root:Worker 1, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_2  | INFO:root:Received all EOF for 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a,{0, 1, 2}
+aggregation_2  | INFO:root:fruit, amount, client_id : ('pomegranate', 859, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_2  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 0]
+aggregation_2  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_2  | INFO:root:Worker 0, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_2  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 1]
+aggregation_2  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_2  | INFO:root:Worker 1, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_2  | INFO:root:fruit, amount, client_id : ('banana', 1002, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_2  | INFO:root:fruit, amount, client_id : ('starfruit', 1063, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_2  | INFO:root:fruit, amount, client_id : ('tangerine', 1075, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_2  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 2]
+aggregation_2  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_2  | INFO:root:Worker 2, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_2  | INFO:root:Received all EOF for 97843581-5622-4683-a440-8f9bad213935,{0, 1, 2}
+aggregation_0  | INFO:pika.adapters.utils.connection_workflow:Pika version 1.3.2 connecting to ('172.18.0.2', 5672)
+aggregation_0  | INFO:pika.adapters.utils.io_services_utils:Socket connected: <socket.socket fd=6, family=2, type=1, proto=6, laddr=('172.18.0.5', 41480), raddr=('172.18.0.2', 5672)>
+aggregation_0  | INFO:pika.adapters.utils.connection_workflow:Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5017e00>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5017e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+aggregation_0  | INFO:pika.adapters.utils.connection_workflow:AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5017e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_0  | INFO:pika.adapters.utils.connection_workflow:AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5017e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_0  | INFO:pika.adapters.blocking_connection:Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5017e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_0  | INFO:pika.adapters.blocking_connection:Created channel=1
+aggregation_0  | INFO:pika.adapters.utils.connection_workflow:Pika version 1.3.2 connecting to ('172.18.0.2', 5672)
+aggregation_0  | INFO:pika.adapters.utils.io_services_utils:Socket connected: <socket.socket fd=10, family=2, type=1, proto=6, laddr=('172.18.0.5', 41484), raddr=('172.18.0.2', 5672)>
+aggregation_0  | INFO:pika.adapters.utils.connection_workflow:Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5072850>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5072850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+aggregation_0  | INFO:pika.adapters.utils.connection_workflow:AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5072850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_0  | INFO:pika.adapters.utils.connection_workflow:AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5072850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_0  | INFO:pika.adapters.blocking_connection:Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x76ecb5072850> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+aggregation_0  | INFO:pika.adapters.blocking_connection:Created channel=1
+aggregation_0  | INFO:root:fruit, amount, client_id : ('melon', 1097, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('apple', 1175, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('cranberry', 1244, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('raspberry', 1676, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('watermelon', 1806, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_0  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 1]
+aggregation_0  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_0  | INFO:root:Worker 1, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_0  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 0]
+aggregation_0  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_0  | INFO:root:Worker 0, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_0  | INFO:root:fruit, amount, client_id : ('nectarine', 1812, 'e5307667-4d91-48af-968f-3badfb0822e1', 2)
+aggregation_0  | INFO:root:eof message ['e5307667-4d91-48af-968f-3badfb0822e1', 2]
+aggregation_0  | INFO:root:client_id : e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_0  | INFO:root:Worker 2, finished with e5307667-4d91-48af-968f-3badfb0822e1
+aggregation_0  | INFO:root:Received all EOF for e5307667-4d91-48af-968f-3badfb0822e1,{0, 1, 2}
+aggregation_0  | INFO:root:fruit, amount, client_id : ('cranberry', 1003, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_0  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 0]
+aggregation_0  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_0  | INFO:root:Worker 0, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_0  | INFO:root:fruit, amount, client_id : ('raspberry', 1051, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('watermelon', 1272, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('nectarine', 1556, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('apple', 1610, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('melon', 1744, '0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2)
+aggregation_0  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 2]
+aggregation_0  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_0  | INFO:root:Worker 2, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_0  | INFO:root:eof message ['0ecbf1dc-6ce0-486b-aa2d-99272ac6178a', 1]
+aggregation_0  | INFO:root:client_id : 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_0  | INFO:root:Worker 1, finished with 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a
+aggregation_0  | INFO:root:Received all EOF for 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a,{0, 1, 2}
+aggregation_0  | INFO:root:fruit, amount, client_id : ('nectarine', 723, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('melon', 882, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_0  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 0]
+aggregation_0  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_0  | INFO:root:Worker 0, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_0  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 1]
+aggregation_0  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_0  | INFO:root:Worker 1, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_0  | INFO:root:fruit, amount, client_id : ('apple', 1236, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('watermelon', 1296, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('raspberry', 1346, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_0  | INFO:root:fruit, amount, client_id : ('cranberry', 1478, '97843581-5622-4683-a440-8f9bad213935', 2)
+aggregation_0  | INFO:root:eof message ['97843581-5622-4683-a440-8f9bad213935', 2]
+aggregation_0  | INFO:root:client_id : 97843581-5622-4683-a440-8f9bad213935
+aggregation_0  | INFO:root:Worker 2, finished with 97843581-5622-4683-a440-8f9bad213935
+aggregation_0  | INFO:root:Received all EOF for 97843581-5622-4683-a440-8f9bad213935,{0, 1, 2}
+join           | INFO:pika.adapters.utils.connection_workflow:Pika version 1.3.2 connecting to ('172.18.0.2', 5672)
+join           | INFO:pika.adapters.utils.io_services_utils:Socket connected: <socket.socket fd=6, family=2, type=1, proto=6, laddr=('172.18.0.4', 57804), raddr=('172.18.0.2', 5672)>
+join           | INFO:pika.adapters.utils.connection_workflow:Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104dc3e00>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104dc3e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+join           | INFO:pika.adapters.utils.connection_workflow:AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104dc3e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+join           | INFO:pika.adapters.utils.connection_workflow:AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104dc3e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+join           | INFO:pika.adapters.blocking_connection:Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104dc3e00> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+join           | INFO:pika.adapters.blocking_connection:Created channel=1
+join           | INFO:pika.adapters.utils.connection_workflow:Pika version 1.3.2 connecting to ('172.18.0.2', 5672)
+join           | INFO:pika.adapters.utils.io_services_utils:Socket connected: <socket.socket fd=10, family=2, type=1, proto=6, laddr=('172.18.0.4', 57818), raddr=('172.18.0.2', 5672)>
+join           | INFO:pika.adapters.utils.connection_workflow:Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104e32990>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104e32990> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+join           | INFO:pika.adapters.utils.connection_workflow:AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104e32990> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+join           | INFO:pika.adapters.utils.connection_workflow:AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104e32990> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+join           | INFO:pika.adapters.blocking_connection:Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77f104e32990> params=<ConnectionParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+join           | INFO:pika.adapters.blocking_connection:Created channel=1
+join           | INFO:root:Received top b'[[["blackberry", 1602], ["dragonfruit", 1322], ["pomelo", 1316]], "e5307667-4d91-48af-968f-3badfb0822e1", 1]'
+join           | INFO:root:Received top b'[[["banana", 1808], ["pomegranate", 1395], ["tangerine", 1329]], "e5307667-4d91-48af-968f-3badfb0822e1", 2]'
+join           | INFO:root:current fruit top: [['blackberry', 1602], ['dragonfruit', 1322], ['pomelo', 1316]]
+join           | INFO:root:Received top b'[[["nectarine", 1812], ["watermelon", 1806], ["raspberry", 1676]], "e5307667-4d91-48af-968f-3badfb0822e1", 0]'
+join           | INFO:root:current fruit top: [['banana', 1808], ['banana', 1808], ['banana', 1808], ['blackberry', 1602], ['dragonfruit', 1322], ['pomegranate', 2790], ['pomegranate', 2790], ['pomegranate', 2790], ['pomegranate', 2790], ['pomegranate', 2790], ['pomelo', 1316], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329]]
+join           | INFO:root:client_tops[client_id]: [['nectarine', 3624], ['nectarine', 3624], ['nectarine', 3624], ['nectarine', 3624], ['nectarine', 3624], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['raspberry', 3352], ['pomegranate', 2790], ['pomegranate', 2790], ['pomegranate', 2790], ['pomegranate', 2790], ['pomegranate', 2790], ['banana', 1808], ['banana', 1808], ['banana', 1808], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['watermelon', 1806], ['blackberry', 1602], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['tangerine', 1329], ['dragonfruit', 1322], ['pomelo', 1316]]
+join           | INFO:root:sending top: [('tangerine', 1329), ('dragonfruit', 1322), ('pomelo', 1316)] of client e5307667-4d91-48af-968f-3badfb0822e1:
+join           | INFO:root:Received top b'[[["dragonfruit", 1228], ["blackberry", 1163], ["pomelo", 1096]], "0ecbf1dc-6ce0-486b-aa2d-99272ac6178a", 1]'
+join           | INFO:root:Received top b'[[["melon", 1744], ["apple", 1610], ["nectarine", 1556]], "0ecbf1dc-6ce0-486b-aa2d-99272ac6178a", 0]'
+join           | INFO:root:current fruit top: [['dragonfruit', 1228], ['blackberry', 1163], ['pomelo', 1096]]
+join           | INFO:root:Received top b'[[["starfruit", 1543], ["pomegranate", 1415], ["banana", 1166]], "0ecbf1dc-6ce0-486b-aa2d-99272ac6178a", 2]'
+join           | INFO:root:current fruit top: [['apple', 1610], ['apple', 1610], ['apple', 1610], ['apple', 1610], ['apple', 1610], ['dragonfruit', 1228], ['blackberry', 1163], ['melon', 3488], ['melon', 3488], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['pomelo', 1096]]
+join           | INFO:root:client_tops[client_id]: [['melon', 3488], ['melon', 3488], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['nectarine', 3112], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['pomegranate', 2830], ['banana', 2332], ['banana', 2332], ['banana', 2332], ['banana', 2332], ['banana', 2332], ['apple', 1610], ['apple', 1610], ['apple', 1610], ['apple', 1610], ['apple', 1610], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['starfruit', 1543], ['dragonfruit', 1228], ['blackberry', 1163], ['pomelo', 1096]]
+join           | INFO:root:sending top: [('dragonfruit', 1228), ('blackberry', 1163), ('pomelo', 1096)] of client 0ecbf1dc-6ce0-486b-aa2d-99272ac6178a:
+join           | INFO:root:Received top b'[[["cranberry", 1478], ["raspberry", 1346], ["watermelon", 1296]], "97843581-5622-4683-a440-8f9bad213935", 0]'
+join           | INFO:root:Received top b'[[["tangerine", 1075], ["starfruit", 1063], ["banana", 1002]], "97843581-5622-4683-a440-8f9bad213935", 2]'
+join           | INFO:root:current fruit top: [['cranberry', 1478], ['raspberry', 1346], ['watermelon', 1296]]
+join           | INFO:root:Received top b'[[["pomelo", 1150], ["guava", 990], ["blackberry", 920]], "97843581-5622-4683-a440-8f9bad213935", 1]'
+join           | INFO:root:current fruit top: [['banana', 1002], ['banana', 1002], ['banana', 1002], ['banana', 1002], ['banana', 1002], ['banana', 1002], ['banana', 1002], ['cranberry', 1478], ['raspberry', 1346], ['starfruit', 2126], ['starfruit', 2126], ['tangerine', 2150], ['tangerine', 2150], ['watermelon', 1296]]
+join           | INFO:root:client_tops[client_id]: [['pomelo', 2300], ['pomelo', 2300], ['pomelo', 2300], ['pomelo', 2300], ['pomelo', 2300], ['pomelo', 2300], ['pomelo', 2300], ['pomelo', 2300], ['tangerine', 2150], ['tangerine', 2150], ['starfruit', 2126], ['starfruit', 2126], ['guava', 1980], ['guava', 1980], ['guava', 1980], ['guava', 1980], ['guava', 1980], ['guava', 1980], ['guava', 1980], ['guava', 1980], ['blackberry', 1840], ['blackberry', 1840], ['blackberry', 1840], ['blackberry', 1840], ['blackberry', 1840], ['blackberry', 1840], ['blackberry', 1840], ['cranberry', 1478], ['raspberry', 1346], ['watermelon', 1296], ['banana', 1002], ['banana', 1002], ['banana', 1002], ['banana', 1002], ['banana', 1002], ['banana', 1002], ['banana', 1002]]
+join           | INFO:root:sending top: [('banana', 1002), ('banana', 1002), ('banana', 1002)] of client 97843581-5622-4683-a440-8f9bad213935:
+rabbitmq       | 2026-04-22 12:20:19.860681+00:00 [info] <0.228.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@8f88bfb13987 is empty. Assuming we need to join an existing cluster or initialise from scratch...[0m

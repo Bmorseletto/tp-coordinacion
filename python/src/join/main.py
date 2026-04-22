@@ -38,16 +38,18 @@ class JoinFilter:
                 current_fruit_top = self.client_tops[client_id]
                 logging.info(f"current fruit top: {current_fruit_top}")
                 for fruit_item in new_fruit_top:
+                    fruit_found = False
                     for i in range(len(current_fruit_top)):
                         if current_fruit_top[i][0] == fruit_item[0]:
                             current_fruit_top[i][1] += fruit_item[1]
+                            fruit_found = True
                             break
-                        else:
-                            bisect.insort(current_fruit_top, fruit_item)
+                    if not fruit_found:
+                        bisect.insort(current_fruit_top, fruit_item)
         if len(self.worker_finished_with_client[client_id]) == AGGREGATION_AMOUNT:
             self.client_tops[client_id].sort( reverse = True, key=lambda x: x[1])
             logging.info(f"client_tops[client_id]: {self.client_tops[client_id]}")
-            fruit_chunk = list(self.client_tops[client_id][-TOP_SIZE:])
+            fruit_chunk = list(self.client_tops[client_id][TOP_SIZE:])
             fruit_top = list(
                 map(
                     lambda fruit_item: (fruit_item[0], fruit_item[1]),

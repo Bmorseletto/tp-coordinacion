@@ -29,6 +29,7 @@ class AggregationFilter:
         self.client_worker_relation = {}
 
     def _process_data(self, fruit, amount, client_id, worker_id):
+        logging.info(f"fruit, amount, client_id : {fruit, amount, client_id, worker_id}")
         if client_id not in  self.client_fruit_top.keys():
             self.client_fruit_top[client_id] = []
         if client_id not in  self.client_worker_relation.keys():

@@ -47,15 +47,16 @@ class SumFilter:
             logging.info(f"Broadcasting data messages")
             aggregator_index = 0
             if client_id in self.amount_by_fruit.keys():
-                for final_fruit_item in self.amount_by_fruit[client_id].values():
-                    self.data_output_exchanges[aggregator_index].send_by_key(
+                for final_fruit_item in sorted(self.amount_by_fruit[client_id].values()):
+                    aggregator =hash(str(final_fruit_item.fruit)) % AGGREGATION_AMOUNT
+                    self.data_output_exchanges[aggregator].send_by_key(
                         message_protocol.internal.serialize(
                             [final_fruit_item.fruit, final_fruit_item.amount, client_id, ID]
                         ),
-                        str(aggregator_index)
+                        str(aggregator)
                     )
                     aggregator_index += 1
-                    if aggregator_index <= AGGREGATION_AMOUNT:
+                    if aggregator_index >= AGGREGATION_AMOUNT:
                         aggregator_index = 0
             logging.info(f"Broadcasting EOF message of client {client_id}")
             self.data_output_exchanges[0].send_by_key(message_protocol.internal.serialize([client_id, ID]), AGGREGATION_PREFIX)
