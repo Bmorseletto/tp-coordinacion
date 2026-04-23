@@ -14,15 +14,14 @@ SUM_PREFIX = os.environ["SUM_PREFIX"]
 SUM_CONTROL_EXCHANGE = "SUM_CONTROL_EXCHANGE"
 AGGREGATION_AMOUNT = int(os.environ["AGGREGATION_AMOUNT"])
 AGGREGATION_PREFIX = os.environ["AGGREGATION_PREFIX"]
-WORKING = True
-DONE = False
+PROCESS_DATA_PARAMETERS = 3
+PROCESS_EOF_PARAMETERS = 1
 
 class SumFilter:
     def __init__(self):
         manager = multiprocessing.Manager()
         self.data_output_exchanges = []
         self.amount_by_fruit =manager.dict()
-        self.client_status =manager.dict()
         self._lock = manager.Lock()
         self._connected_sums = manager.list()
         self._barrier_condition=multiprocessing.Condition()
@@ -32,7 +31,6 @@ class SumFilter:
             if client_id not in self.amount_by_fruit.keys():
                 logging.info(f"recived first message from client: {client_id}")
                 self.amount_by_fruit[client_id] ={}
-                self.client_status[client_id] = WORKING
             logging.info(f"processsing: {fruit, amount}, for {client_id}")
             client_dict = self.amount_by_fruit[client_id]
             client_dict[fruit] = client_dict.get(
@@ -76,10 +74,12 @@ class SumFilter:
 
     def process_data_messsage(self, message, ack, nack):
         fields = message_protocol.internal.deserialize(message)
-        if len(fields) == 3:
+        if len(fields) == PROCESS_DATA_PARAMETERS:
             self._process_data(*fields)
-        else:
+        if len(fields) == PROCESS_EOF_PARAMETERS:
             self._process_eof(*fields)
+        else:
+            logging.info(f"message does not comply with required format: {fields}")
         ack()
 
     def start_inter_comm(self):

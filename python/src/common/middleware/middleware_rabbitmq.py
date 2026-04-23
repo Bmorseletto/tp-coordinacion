@@ -55,7 +55,6 @@ class MessageMiddlewareQueueRabbitMQ(MessageMiddlewareQueue):
 
 
 class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
-    EXCHANGE_TYPE = "topic"
     def __init__(self, host, exchange_name, routing_keys, exchange_type = "topic"):
         self._conn = pika.BlockingConnection(pika.ConnectionParameters(host))
         self._channel =  self._conn.channel()

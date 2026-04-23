@@ -71,9 +71,11 @@ class AggregationFilter:
         fields = message_protocol.internal.deserialize(message)
         if len(fields) == 4:
             self._process_data(*fields)
-        else:
+        elif len(fields) == 2:
             logging.info(f"eof message {fields}")
             self._process_eof(*fields)
+        else:
+            logging.info(f"message does not comply with required format: {fields}")
         ack()
 
     def start(self):
