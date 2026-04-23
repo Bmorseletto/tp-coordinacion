@@ -94,7 +94,7 @@ class SumFilter:
 
     def start_inter_comm(self):
         logging.basicConfig(level=logging.INFO)
-        self.sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE, str(ID)])
+        self.sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(*SUM_INTERCOMM_PARAMETERS)
         def handle_sigterm(sum_intercomm):
             sum_intercomm.stop_consuming()
         signal.signal(
@@ -120,7 +120,7 @@ class SumFilter:
         self.input_queue = middleware.MessageMiddlewareQueueRabbitMQ(
             MOM_HOST, INPUT_QUEUE
         )
-        self.sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(MOM_HOST, SUM_CONTROL_EXCHANGE, [SUM_CONTROL_EXCHANGE, str(ID)])
+        self.sum_intercomm=middleware.MessageMiddlewareExchangeRabbitMQ(*SUM_INTERCOMM_PARAMETERS)
         def handle_sigterm(input_queue):
             input_queue.stop_consuming()
         signal.signal(
