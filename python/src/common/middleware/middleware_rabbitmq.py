@@ -31,7 +31,6 @@ class MessageMiddlewareQueueRabbitMQ(MessageMiddlewareQueue):
             raise MessageMiddlewareCloseError(e)
     def start_consuming(self, on_message_callback):
         try:
-           self._channel.basic_qos(prefetch_count=1)
            _start_consuming(self, on_message_callback=on_message_callback)
         except pika.exceptions.AMQPConnectionError as e:
             self.close()
@@ -101,7 +100,6 @@ class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
             raise MessageMiddlewareCloseError(e)
     def start_consuming(self, on_message_callback):
         try:
-           self._channel.basic_qos(prefetch_count=1)
            _start_consuming(self, on_message_callback=on_message_callback)
         except pika.exceptions.AMQPConnectionError as e:
             self.close()

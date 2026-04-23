@@ -35,7 +35,6 @@ class JoinFilter:
         if client_id not in self.client_tops.keys():
             self.client_tops[client_id] = {}
         if new_fruit_top is not None:
-            logging.info(f"full dict: {self.client_tops}")
             client_dict = self.client_tops[client_id]
             for fruit, amount in new_fruit_top:
                 client_dict[fruit] = client_dict.get(fruit, 0) + amount
@@ -45,7 +44,6 @@ class JoinFilter:
             for fruit, value in self.client_tops[client_id].items():
                 fruits.append([fruit, value])
             fruits.sort( reverse = True, key=lambda x: x[FRUIT_AMOUNT_INDEX])
-            logging.info(f"client fruits: {fruits}")
             fruit_chunk = list(fruits[:TOP_SIZE])
             fruit_top = list(
                 map(

@@ -45,7 +45,6 @@ class AggregationFilter:
 
     def _process_eof(self, client_id, worker_id):
         fruit_top = None
-        logging.info(f"client_id : {client_id}")
         if client_id not in  self.client_worker_relation.keys():
             self.client_worker_relation[client_id] = set()
         self.client_worker_relation[client_id].add(worker_id)
@@ -72,7 +71,6 @@ class AggregationFilter:
         if len(fields) == 4:
             self._process_data(*fields)
         elif len(fields) == 2:
-            logging.info(f"eof message {fields}")
             self._process_eof(*fields)
         else:
             logging.info(f"message does not comply with required format: {fields}")
