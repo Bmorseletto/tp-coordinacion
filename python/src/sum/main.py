@@ -83,7 +83,6 @@ class SumFilter:
 
     def process_data_messsage(self, message, ack, nack):
         fields = message_protocol.internal.deserialize(message)
-        logging.info(f"fields: {fields}")
         if len(fields) == PROCESS_DATA_PARAMETERS:
             self._process_data(*fields)
         elif len(fields) == PROCESS_EOF_PARAMETERS:
