@@ -2,6 +2,7 @@ import os
 import logging
 import multiprocessing
 import signal
+import hashlib
 
 from common import middleware, message_protocol, fruit_item
 
@@ -32,6 +33,7 @@ class SumFilter:
                 logging.info(f"recived first message from client: {client_id}")
                 self.amount_by_fruit[client_id] ={}
                 self.client_status[client_id] = WORKING
+            logging.info(f"processsing: {fruit, amount}, for {client_id}")
             client_dict = self.amount_by_fruit[client_id]
             client_dict[fruit] = client_dict.get(
                 fruit, fruit_item.FruitItem(fruit, 0)
@@ -45,21 +47,18 @@ class SumFilter:
     def send_to_data_outptut(self, client_id):
         with self._lock:   
             logging.info(f"Broadcasting data messages")
-            aggregator_index = 0
             if client_id in self.amount_by_fruit.keys():
                 for final_fruit_item in sorted(self.amount_by_fruit[client_id].values()):
-                    aggregator =hash(str(final_fruit_item.fruit)) % AGGREGATION_AMOUNT
-                    self.data_output_exchanges[aggregator].send_by_key(
+                    aggregator =int(hashlib.md5(final_fruit_item.fruit.encode()).hexdigest(), 16) % AGGREGATION_AMOUNT
+                    logging.info(f"sending fruit: {final_fruit_item.fruit, final_fruit_item.amount}, to agg:{aggregator}, from: {client_id}")
+                    self.data_output_exchange.send_by_key(
                         message_protocol.internal.serialize(
                             [final_fruit_item.fruit, final_fruit_item.amount, client_id, ID]
                         ),
                         str(aggregator)
                     )
-                    aggregator_index += 1
-                    if aggregator_index >= AGGREGATION_AMOUNT:
-                        aggregator_index = 0
             logging.info(f"Broadcasting EOF message of client {client_id}")
-            self.data_output_exchanges[0].send_by_key(message_protocol.internal.serialize([client_id, ID]), AGGREGATION_PREFIX)
+            self.data_output_exchange.send_by_key(message_protocol.internal.serialize([client_id, ID]), AGGREGATION_PREFIX)
 
     def process_intercomm_message(self, message, ack, nack):
         id = message_protocol.internal.deserialize(message)[0]
@@ -94,11 +93,10 @@ class SumFilter:
             signal.SIGTERM,
             lambda signum, frame:handle_sigterm(self.sum_intercomm, self.data_output_exchanges),
         )
-        for i in range(AGGREGATION_AMOUNT):
-            data_output_exchange = middleware.MessageMiddlewareExchangeRabbitMQ(
-                MOM_HOST, AGGREGATION_PREFIX, [f"{AGGREGATION_PREFIX}",f"{i}"]
-            )
-            self.data_output_exchanges.append(data_output_exchange)
+        routing_keys = [AGGREGATION_PREFIX] + [str(i) for i in range(AGGREGATION_AMOUNT)]
+        self.data_output_exchange = middleware.MessageMiddlewareExchangeRabbitMQ(
+            MOM_HOST, AGGREGATION_PREFIX, routing_keys
+        )
         try:
             self._connected_sums.append(ID)
             self.sum_intercomm.send(message_protocol.internal.serialize([ID]))

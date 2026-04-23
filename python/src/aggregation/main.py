@@ -64,6 +64,7 @@ class AggregationFilter:
                 )
             )
             del self.client_fruit_top[client_id]
+            del self.client_worker_relation[client_id]
         self.output_queue.send(message_protocol.internal.serialize([fruit_top, client_id, ID]))
 
     def process_messsage(self, message, ack, nack):

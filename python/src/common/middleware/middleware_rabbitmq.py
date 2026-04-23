@@ -8,10 +8,11 @@ class MessageMiddlewareQueueRabbitMQ(MessageMiddlewareQueue):
     def __init__(self, host, queue_name):
         self._conn = pika.BlockingConnection(pika.ConnectionParameters(host))
         self._channel =  self._conn.channel()
-        self._channel.queue_declare(queue=queue_name, durable=True)
+        self._channel.queue_declare(queue=queue_name)
         self._queue_name = queue_name
         self._delivery_tag = None
         self._consumer_tag = None
+        self._channel.confirm_delivery()
     def send(self,message):
         try:
             self._channel.basic_publish(exchange='',
@@ -30,6 +31,7 @@ class MessageMiddlewareQueueRabbitMQ(MessageMiddlewareQueue):
             raise MessageMiddlewareCloseError(e)
     def start_consuming(self, on_message_callback):
         try:
+           self._channel.basic_qos(prefetch_count=1)
            _start_consuming(self, on_message_callback=on_message_callback)
         except pika.exceptions.AMQPConnectionError as e:
             self.close()
@@ -51,6 +53,7 @@ class MessageMiddlewareQueueRabbitMQ(MessageMiddlewareQueue):
     def set_consumer_tag(self, consumer_tag):
         self._consumer_tag = consumer_tag
 
+
 class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
     EXCHANGE_TYPE = "topic"
     def __init__(self, host, exchange_name, routing_keys, exchange_type = "topic"):
@@ -65,6 +68,7 @@ class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
         self._routing_keys = routing_keys
         self._delivery_tag = None
         self._consumer_tag = None
+        self._channel.confirm_delivery()
 
     def send(self,message):
         try:
@@ -98,6 +102,7 @@ class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
             raise MessageMiddlewareCloseError(e)
     def start_consuming(self, on_message_callback):
         try:
+           self._channel.basic_qos(prefetch_count=1)
            _start_consuming(self, on_message_callback=on_message_callback)
         except pika.exceptions.AMQPConnectionError as e:
             self.close()
