@@ -28,7 +28,6 @@ class SumFilter:
         self._barrier_condition=multiprocessing.Condition()
 
     def _process_data(self, fruit, amount, client_id):
-        logging.info(f"forwarding to self")
         self.sum_intercomm.send_by_key(message_protocol.internal.serialize([fruit, amount, client_id]), str(ID))
         return
 
